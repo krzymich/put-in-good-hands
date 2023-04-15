@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="ie=edge" http-equiv="X-UA-Compatible"/>
+    <title>Document</title>
+    <script defer src='{% static "js/app.js" %}'></script>
+    <link href='{% static "css/style.css" %}' rel="stylesheet">
+</head>
+
+
+<body>
+<header {% block header_class %}{% endblock %}>
+    <nav class="container container--70">
+        <ul class="nav--actions">
+            <li><a class="btn btn--small btn--without-border" href="">Zaloguj</a></li>
+            <li><a class="btn btn--small btn--highlighted" href="#">Załóż konto</a></li>
+        </ul>
+
+
+<!--        <ul class="nav&#45;&#45;actions">-->
+<!--            <li class="logged-user">-->
+<!--                Witaj Agata-->
+<!--                <ul class="dropdown">-->
+<!--                    <li><a href="#">Profil</a></li>-->
+<!--                    <li><a href="#">Ustawienia</a></li>-->
+<!--                    <li><a href="#">Wyloguj</a></li>-->
+<!--                </ul>-->
+<!--            </li>-->
+
+        <ul>
+            <li><a class="btn btn--without-border active" href="">Start</a></li>
+            <li><a class="btn btn--without-border" href="#steps">O co chodzi?</a></li>
+            <li><a class="btn btn--without-border" href="#about-us">O nas</a></li>
+            <li><a class="btn btn--without-border" href="#help">Fundacje i organizacje</a></li>
+            <li><a class="btn btn--without-border" href="form.html">Przekaż dary</a></li>
+            <li><a class="btn btn--without-border" href="#contact">Kontakt</a></li>
+        </ul>
+    </nav>
+    {% block header %}{% endblock %}
+</header>
+{% block content %}{% endblock %}
+
+
+<footer>
+    <div class="contact" id="contact">
+        <h2>Skontaktuj się z nami</h2>
+        <h3>Formularz kontaktowy</h3>
+        <form class="form--contact">
+            <div class="form-group form-group--50"><input name="name" placeholder="Imię" type="text"/></div>
+            <div class="form-group form-group--50"><input name="surname" placeholder="Nazwisko" type="text"/></div>
+
+            <div class="form-group"><textarea name="message" placeholder="Wiadomość" rows="1"></textarea></div>
+
+            <button class="btn" type="submit">Wyślij</button>
+        </form>
+    </div>
+    <div class="bottom-line">
+        <span class="bottom-line--copy">Copyright &copy; 2023</span>
+        <div class="bottom-line--icons">
+            <a class="btn btn--small" href="#"><img src="{% static 'images/icon-facebook.svg' %}"/></a>
+            <a class="btn btn--small" href="#"><img src="{% static 'images/icon-instagram.svg' %}"/></a>
+        </div>
+    </div>
+</footer>
+
+
+</body>
+</html>
