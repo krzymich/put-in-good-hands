@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 class Category(models.Model):
     name = models.CharField(max_length=64)
 
+    def __str__(self):
+        return self.name
+
 
 class Institution(models.Model):
     FOUNDATION = "FDN"
@@ -20,6 +23,10 @@ class Institution(models.Model):
     description = models.TextField()
     type = models.CharField(choices=INSTITUTION_TYPE_CHOICES, default=FOUNDATION)
     categories = models.ManyToManyField(Category)
+
+    def __str__(self):
+        return self.name
+
 
 
 class Donation(models.Model):

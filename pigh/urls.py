@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 
 from app.views import IndexView, AddDonationView, LoginView, RegisterView
+# from app.views import DonationCreateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,5 +26,6 @@ urlpatterns = [
     path('add-donation/', AddDonationView.as_view(), name='add_donation'),
     path('login/', LoginView.as_view(), name='login'),
     path('register/', RegisterView.as_view(), name='register'),
+    # path('db_populate/', DonationCreateView.as_view(), name='db_populate'),
 
 ]
