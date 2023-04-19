@@ -1,9 +1,11 @@
+from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.shortcuts import render
 from django.views import View
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, FormView
 
+from app.forms import RegisterForm
 from app.models import Donation, Institution
 
 
@@ -48,14 +50,17 @@ class AddDonationView(View):
     def get(self, request):
         return render(request, "form.html")
 
-class RegisterView(View):
-    def get(self, request):
-        return render(request, "register.html")
+class RegisterView(FormView):
+    template_name = 'register.html'
+    form_class = RegisterForm
+    success_url = '/login/'
+
+    def form_valid(self, form):
+        form.instance.username = form.cleaned_data['email']
+        form.instance.password = make_password(form.cleaned_data['password'])
+        form.save()
+        return super().form_valid(form)
 
 class LoginView(View):
     def get(self, request):
         return render(request, "login.html")
-
-# class DonationCreateView(CreateView):
-#     model = Donation
-#     fields = ["quantity", "categories", "institution", "address", "phone_number", "city", "zip_code", "pick_up_date", "pick_up_time", "pick_up_comment"]
