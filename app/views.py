@@ -1,13 +1,16 @@
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.views import LoginView
 from django.core.paginator import Paginator
 from django.db.models import Sum
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic.edit import CreateView, FormView
 
 from app.forms import RegisterForm
 from app.models import Donation, Institution
-
+from django.contrib import messages
 
 # Create your views here.
 
@@ -61,6 +64,9 @@ class RegisterView(FormView):
         form.save()
         return super().form_valid(form)
 
-class LoginView(View):
-    def get(self, request):
-        return render(request, "login.html")
+class MyLoginView(LoginView):
+    template_name = 'login.html'
+    redirect_authenticated_user = True
+
+    def form_invalid(self, form):
+        return redirect('register')

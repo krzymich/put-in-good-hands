@@ -17,15 +17,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from app.views import IndexView, AddDonationView, LoginView, RegisterView
-# from app.views import DonationCreateView
+from django.contrib.auth.views import LogoutView
+from app.views import IndexView, AddDonationView, MyLoginView, RegisterView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', IndexView.as_view(), name='landing_page'),
     path('add-donation/', AddDonationView.as_view(), name='add_donation'),
-    path('login/', LoginView.as_view(), name='login'),
+    path('login/', MyLoginView.as_view(), name='login'),
     path('register/', RegisterView.as_view(), name='register'),
-    # path('db_populate/', DonationCreateView.as_view(), name='db_populate'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+
 
 ]
