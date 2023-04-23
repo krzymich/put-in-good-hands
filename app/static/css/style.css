@@ -1631,12 +1631,15 @@ footer .bottom-line--icons a img {
 
 /* line 37, scss/style.scss */
 .login-page form .form-group {
+  display: flex;
   margin-bottom: 40px;
+  justify-content: center;
 }
 
 /* line 40, scss/style.scss */
 .login-page form .form-group--buttons {
   margin-top: 50px;
+  justify-content: space-between;
 }
 
 /* line 44, scss/style.scss */
