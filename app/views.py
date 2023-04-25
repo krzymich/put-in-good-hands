@@ -6,7 +6,7 @@ from django.views import View
 from django.views.generic.edit import CreateView, FormView
 
 from app.forms import RegisterForm
-from app.models import Donation, Institution
+from app.models import Donation, Institution, Category
 
 
 # Create your views here.
@@ -48,7 +48,41 @@ class IndexView(View):
 
 class AddDonationView(View):
     def get(self, request):
-        return render(request, "form.html")
+        categories = Category.objects.all()
+        institutions = Institution.objects.all()
+        ctx = {
+            "categories": categories,
+            "institutions": institutions
+        }
+        return render(request, "form.html", ctx)
+
+    def post(self, request):
+        quantity = request.POST.get('bags')
+        categories = request.POST.get('categories')
+        institution = request.POST.get('organization')
+        address = request.POST.get('address')
+        phone_number = request.POST.get('phone')
+        city = request.POST.get('city')
+        zip_code = request.POST.get('postcode')
+        pick_up_date = request.POST.get('date')
+        pick_up_time = request.POST.get('time')
+        pick_up_comment = request.POST.get('more_info')
+        user = request.POST.get('user')
+        donation = Donation(
+            quantity=quantity,
+            categories = categories,
+            institution = institution,
+            address = address,
+            phone_number = phone_number,
+            city = city,
+            zip_code = zip_code,
+            pick_up_date = pick_up_date,
+            pick_up_time = pick_up_time,
+            pick_up_comment = pick_up_comment,
+            user = user
+        )
+        donation.save()
+        return render(request, "form-confirmation.html")
 
 class RegisterView(FormView):
     template_name = 'register.html'

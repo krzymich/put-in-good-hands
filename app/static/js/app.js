@@ -87,6 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$el.parentElement.removeChild(this.$el);
     }
 
+
     createElements() {
       // Input for value
       this.valueInput = document.createElement("input");
@@ -143,9 +144,18 @@ document.addEventListener("DOMContentLoaded", function() {
   /**
    * Hide elements when clicked on document
    */
+
+
+
   document.addEventListener("click", function(e) {
+
     const target = e.target;
     const tagName = target.tagName;
+    if (target.name === 'organization') {
+        organization.value = target.value;
+        organization.name = target.dataset.name
+    }
+
 
     if (target.classList.contains("dropdown")) return false;
 
@@ -180,6 +190,7 @@ document.addEventListener("DOMContentLoaded", function() {
       this.init();
     }
 
+
     /**
      * Init all methods
      */
@@ -211,7 +222,7 @@ document.addEventListener("DOMContentLoaded", function() {
       });
 
       // Form submit
-      this.$form.querySelector("form").addEventListener("submit", e => this.submit(e));
+//      this.$form.querySelector("form").addEventListener("submit", e => {this.submit(e); console.log(e)});
     }
 
     /**
@@ -252,4 +263,50 @@ document.addEventListener("DOMContentLoaded", function() {
   if (form !== null) {
     new FormSteps(form);
   }
+
+
+  const dataStep1 = form.querySelector("div[data-step='1']")
+  const dataStep3 = form.querySelector("div[data-step='3']")
+  const dataStep4 = form.querySelector("div[data-step='4']")
+  const dataStep5 = form.querySelector("div[data-step='5']")
+
+  const checkboxes = dataStep1.querySelectorAll('.checkbox');
+  let categoryList = []
+  for (let checkbox of checkboxes) {
+    checkbox.addEventListener('click', (e) => {
+    const inputValue = e.target.previousElementSibling.value
+    if (categoryList.includes(inputValue)){categoryList.splice(categoryList.indexOf(inputValue),1)
+    } else {categoryList.push(inputValue)}
+  console.log(categoryList)})
+  }
+
+  const findChosenCategory = (categoryListArray, organizationCategoryArray) => {
+    return categoryListArray.some(item => organizationCategoryArray.includes(item))
+  }
+
+  const submitButton1 = dataStep1.querySelector('.next-step')
+  submitButton1.addEventListener('click', () => {
+   const organizationsList = dataStep3.querySelectorAll("div[data-category]")
+   for (let organization of organizationsList) {
+       const organizationCategories = (organization.dataset.category).split(',');
+       const organizationWithDesignatedCategory = findChosenCategory(categoryList, organizationCategories)
+       if (!organizationWithDesignatedCategory){
+       organization.style.display = 'none'
+       } else {organization.style.display = 'block'}
+       }
+   });
+
+  const submitButton4 = dataStep4.querySelector('.next-step')
+  const listOfFields = ['bags', 'address', 'city', 'postcode', 'phone', 'data', 'time']
+  let organization = {}
+
+  submitButton4.addEventListener('click', () => {
+    listOfFields.forEach(el => form.querySelector(`#${el}`).innerText = form.querySelector(`input[name="${el}"]`).value);
+    const more_info = dataStep4.querySelector('textarea[name="more_info"]')
+    dataStep5.querySelector('#organization').innerText = organization.name
+    console.log(more_info.value)
+    if (more_info.value) {dataStep5.querySelector('#more_info').innerText = more_info.value
+    } else {dataStep5.querySelector('#more_info').innerText = "Brak uwag"}
+
+  })
 });
