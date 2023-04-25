@@ -270,8 +270,11 @@ document.addEventListener("DOMContentLoaded", function() {
   const dataStep4 = form.querySelector("div[data-step='4']")
   const dataStep5 = form.querySelector("div[data-step='5']")
 
-  const checkboxes = dataStep1.querySelectorAll('.checkbox');
   let categoryList = []
+  let organization = {}
+
+  const checkboxes = dataStep1.querySelectorAll('.checkbox');
+
   for (let checkbox of checkboxes) {
     checkbox.addEventListener('click', (e) => {
     const inputValue = e.target.previousElementSibling.value
@@ -297,8 +300,7 @@ document.addEventListener("DOMContentLoaded", function() {
    });
 
   const submitButton4 = dataStep4.querySelector('.next-step')
-  const listOfFields = ['bags', 'address', 'city', 'postcode', 'phone', 'data', 'time']
-  let organization = {}
+  const listOfFields = ['bags', 'address', 'city', 'postcode', 'phone', 'date', 'time']
 
   submitButton4.addEventListener('click', () => {
     listOfFields.forEach(el => form.querySelector(`#${el}`).innerText = form.querySelector(`input[name="${el}"]`).value);
