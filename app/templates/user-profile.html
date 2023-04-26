@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<section class="login-page">
+    <h2>Profil użytkownika</h2>
+
+    <div class="form-group">
+        Imię: {{ user.first_name }}
+    </div>
+    <div class="form-group">
+        Nazwisko: {{ user.last_name }}
+    </div>
+    <div class="form-group">
+        Email: {{ user.email }}
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Ilość worków</th>
+            <th>Nazwa organizacji</th>
+            <th>Kategorie</th>
+            <th>Data i godzina odbioru</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for donation in donations %}
+        <tr {% if donation.is_taken %} style="color: lightgrey" {% endif %}>
+            <td>
+                {{donation.quantity}}
+            </td>
+            <td>
+                {{donation.institution}}
+            </td>
+            <td>
+                {% for category in donation.categories.all %}{{category}}{% if not forloop.last %}, {% endif %}{% endfor %}
+            </td>
+            <td>
+                {{donation.pick_up_date}} {{donation.pick_up_time}}
+            </td>
+            <form>
+                <td>
+                    {% if donation.is_taken and user.is_superuser %}
+                    <button type="submit" name="donation_id" value="{{donation.id}}">Odebrany</button>
+                    {% elif donation.is_taken %}
+                    <span>Odebrany</span>
+                    {% else %}
+                    <button type="submit" name="donation_id" value="{{donation.id}}">Nieodebrany</button>
+                    {% endif %}
+                </td>
+            </form>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</section>
+{% endif %}
+{% endblock %}
